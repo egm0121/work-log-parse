@@ -1,0 +1,8 @@
+{
+  "name": "npx-script-template",
+  "version": "0.0.0",
+  "bin": "./cli.js",
+  "dependencies": {
+    "minimist": "^1.2.5"
+  }
+}
