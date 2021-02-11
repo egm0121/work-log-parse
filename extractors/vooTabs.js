@@ -1,5 +1,5 @@
 
-const LogExtractor = require('./logExtractor');
+const LogExtractor = require('../helpers/logExtractor');
 class VOOTabsExtractor extends LogExtractor {
   
   constructor() {

@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 const argv = require('minimist')(process.argv.slice(2));
-const ByLineTransform = require('./byLineTransform');
-const ToJsonStream = require('./toJsonStream');
+const chalk = require('chalk');
+const ByLineTransform = require('./helpers/byLineTransform');
+const ToJsonStream = require('./helpers/toJsonStream');
 
 const OsAndAppInfoExtractor = require('./extractors/osAndAppInfo');
 const ErrorExtractor = require('./extractors/errors');
@@ -12,19 +13,17 @@ const CallProviderEventsExtractor = require('./extractors/callProviderEvents');
 const NumberConnectedCallsExtractor = require('./extractors/connectedCalls');
 const AudioDevicesExtractor = require('./extractors/audioDevices');
 const VOOTabsExtractor = require('./extractors/vooTabs');
-const QueryLogExtractor = require('./extractors/queryLogExtractor');
+const QueryLogExtractor = require('./helpers/queryLogExtractor');
 const LoginDataExtractor = require('./extractors/loginData');
 
 const WhiteRenderExtractor = require('./extractors/whiteRender');
 const ServiceNotificationsExtractor = require('./extractors/serviceNotifications');
 
-const utils = require('./utils');
-
-const testQuery = {"pid":30364,"$or":[ {"level": 40},{"isWhite":false}] }
-const testQueryTwo = {"$or": [ {"pid":30365},{"isWhite":{ "$in" : [true,false] } }] };
+const utils = require('./helpers/utils');
 
 let userExtractors = [];
 let extractors = [
+  new LoginDataExtractor(),
   new OsAndAppInfoExtractor(),
   new ErrorExtractor(),
   new AutoUpdatesExtractor(),
@@ -36,7 +35,6 @@ let extractors = [
   new AudioDevicesExtractor(),
   new VOOTabsExtractor(),
   new ServiceNotificationsExtractor(),
-  new LoginDataExtractor(),
 ];
 
 if(argv.extract){
@@ -64,6 +62,7 @@ utils.pipeAll(jsonStream, extractors).on('error', () => {
   console.error('stream error', err);
 })
 .on('end', () => {
-  console.log('Log Analysis');
+  console.log(chalk.bold.blue.bgWhite(utils.padCentered(`LOG ANALYSIS`)));
+  console.log(chalk.bold.white.bgBlue(utils.padCentered(``)));
   extractors.forEach(extractor => extractor.printReport());
 }).resume();

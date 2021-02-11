@@ -1,19 +1,24 @@
 
-const LogExtractor = require('./logExtractor');
-class AudioDevicesExtractor extends LogExtractor {
+const QueryLogExtractor = require('../helpers/queryLogExtractor');
+class AudioDevicesExtractor extends QueryLogExtractor {
   
   constructor() {
     super({
-      matcher: (logLine) => 
-        logLine.FILE === 'ui/services/audioDeviceManager/AudioDeviceManager' && 
-        logLine.msg === 'output device change' ||
-        logLine.msg === 'input device change' ||
-        logLine.msg === '2nd ringtone device change',
+      query: { 
+        FILE: 'ui/services/audioDeviceManager/AudioDeviceManager', 
+        msg: { 
+          $in : [
+            'output device change', 
+            'input device change', 
+            '2nd ringtone device change' 
+          ]
+        }
+      },
       extractor: (logLine) => ({ 
        deviceName: logLine.deviceId,
        type: logLine.msg
       }),
-      label: 'AUDIO DEVICES EXTRACTOR' 
+      label: 'AVAILABLE AUDIO DEVICES CHANGED' 
     });
   }
 };

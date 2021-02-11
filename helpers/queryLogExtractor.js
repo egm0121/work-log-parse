@@ -10,16 +10,19 @@ class QueryLogExtractor extends LogExtractor {
     IN: '$in',
     EXIST: '$exist'
   };
-  constructor({query, label, extractor, reducer} = {}) {
+  constructor({query, label, matcher, extractor, reducer} = {}) {
     super({
-      matcher: (logLine) => this.queryMatcher(this.queryObj,logLine),
-      extractor: extractor || this.defaultLogExtractor,
+      matcher: query ? null : matcher,
+      extractor: extractor,
       reducer: reducer,
       label: label || 'CUSTOM EXTRACTOR' 
     });
     this.queryObj = query;
   }
-  defaultLogExtractor(logLine) {
+  matcherFn(logLine) {
+    return this.queryMatcher(this.queryObj, logLine);
+  }
+  extractorFn(logLine) {
     return { FILE: logLine.LOG_PREFIX || logLine.PREFIX, all: JSON.stringify(logLine) };
   }
   queryMatcher(matcher, log){

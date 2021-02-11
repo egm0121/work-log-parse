@@ -1,4 +1,4 @@
-const LogExtractor = require('./logExtractor');
+const LogExtractor = require('../helpers/logExtractor');
 class CallProviderEventsExtractor extends LogExtractor {
   static WHITELIST = {
     'PROVIDER_INIT_SUCCESS': true,

@@ -1,5 +1,5 @@
 
-const LogExtractor = require('./logExtractor');
+const LogExtractor = require('../helpers/logExtractor');
 class WhiteRenderExtractor extends LogExtractor {
   
   constructor() {

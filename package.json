@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "bin": "./cli.js",
   "dependencies": {
+    "chalk": "^4.1.0",
     "minimist": "^1.2.5"
   }
 }

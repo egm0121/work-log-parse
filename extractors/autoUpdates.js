@@ -1,4 +1,4 @@
-const LogExtractor = require('./logExtractor');
+const LogExtractor = require('../helpers/logExtractor');
 class AutoUpdatesExtractor extends LogExtractor {
   static WHITELIST = {
     'checking-for-update': true,
@@ -12,10 +12,7 @@ class AutoUpdatesExtractor extends LogExtractor {
   constructor() {
     super({
       matcher: (logLine) => {
-        if(logLine.day >= 0 && !this.uniqMap.has(logLine.day)) {
-          this.uniqMap.add(logLine.day);
-          return true;
-        }
+        if(logLine.day) return true;
         if(logLine.toRepair) return true;
         if(AutoUpdatesExtractor.WHITELIST[logLine.msg] === true) return true;
         if(this.uniqMap.has(logLine.runtimeAppVersion)) return false;
@@ -28,7 +25,7 @@ class AutoUpdatesExtractor extends LogExtractor {
         day: logLine.day,
         msg: logLine.msg,
       }),
-      label: 'AUTO UPDATES' 
+      label: 'AUTO UPDATE EVENTS & ERRORS' 
     });
     this.uniqMap = new Set();
   }

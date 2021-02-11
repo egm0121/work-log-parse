@@ -1,4 +1,4 @@
-const LogExtractor = require('./logExtractor');
+const LogExtractor = require('../helpers/logExtractor');
 class ServiceNotificationsExtractor extends LogExtractor {
   
   constructor() {

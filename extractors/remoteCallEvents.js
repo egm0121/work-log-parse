@@ -1,5 +1,5 @@
-const LogExtractor = require('./logExtractor');
-class CallEventsExtractor extends LogExtractor {
+const QueryLogExtractor = require('../helpers/queryLogExtractor');
+class CallEventsExtractor extends QueryLogExtractor {
   static WHITELIST = {
     'call-incoming': true,
     'call-outoging': true,

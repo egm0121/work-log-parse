@@ -19,7 +19,7 @@ function toSortedArray(input, sortKey = 'time') {
 
 function printKeysAsTables(data, keyName = 'PID', keysArr){
   (keysArr || Object.keys(data)).forEach(pid => {
-    console.log(` ${keyName}: ${pid}`);
+    console.log(`${keyName}: ${pid}`);
     console.table(toSortedArray(data[pid]));
   });
 }
@@ -27,9 +27,17 @@ function printKeysAsTables(data, keyName = 'PID', keysArr){
 function pipeAll(inputStream, pipeline) {
   return pipeline.reduce((acc,currStream) => acc.pipe(currStream),inputStream);
 }
+
+function padCentered(str, lineLen = 50){
+  const padLen = parseInt(lineLen - str.length / 2 );
+  const padStr = new Array(padLen).fill(' ').join('');
+  return `${padStr}${str}${padStr}`;
+}
+
 module.exports = {
   pipeWithErrors,
   toSortedArray,
   printKeysAsTables,
   pipeAll,
+  padCentered,
 };
