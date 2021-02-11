@@ -9,6 +9,7 @@ class ErrorExtractor extends PassThrough {
     this.displayLabel = opts.label;
     this.matcherFn = opts.matcher;
     this.extractorFn = opts.extractor;
+    this.reducerFn = opts.reducer || (allRecords => (allRecords));
   }
   _transform(logLine, encoding, cb) {
     try {
@@ -23,6 +24,10 @@ class ErrorExtractor extends PassThrough {
       console.log('error on stream', err, logLine);
     }
     super._transform(logLine, encoding, cb);
+  }
+  _flush(cb){
+    this.data = this.reducerFn(this.data);
+    cb();
   }
   getSummaryData() {
     return this.data;

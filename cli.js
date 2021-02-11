@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 const argv = require('minimist')(process.argv.slice(2));
+const ByLineTransform = require('./byLineTransform');
+const ToJsonStream = require('./toJsonStream');
+
 const OsAndAppInfoExtractor = require('./extractors/osAndAppInfo');
 const ErrorExtractor = require('./extractors/errors');
 const AutoUpdatesExtractor = require('./extractors/autoUpdates');
@@ -10,18 +13,18 @@ const NumberConnectedCallsExtractor = require('./extractors/connectedCalls');
 const AudioDevicesExtractor = require('./extractors/audioDevices');
 const VOOTabsExtractor = require('./extractors/vooTabs');
 const QueryLogExtractor = require('./extractors/queryLogExtractor');
+const LoginDataExtractor = require('./extractors/loginData');
 
-const ByLineTransform = require('./byLineTransform');
-const ToJsonStream = require('./toJsonStream');
-
-const utils = require('./utils');
 const WhiteRenderExtractor = require('./extractors/whiteRender');
 const ServiceNotificationsExtractor = require('./extractors/serviceNotifications');
-const testQuery = {query: { level: 50, $or: { isVisible: true , portalPrefix: 'oncall_aot_portal' } } };
-const testQueryTwo = {query: { $in: { eventName: ['call-connect','call-incoming']}, $or : { level: 40, pid: 756 } } };
+
+const utils = require('./utils');
+
+const testQuery = {"pid":30364,"$or":[ {"level": 40},{"isWhite":false}] }
+const testQueryTwo = {"$or": [ {"pid":30365},{"isWhite":{ "$in" : [true,false] } }] };
 
 let userExtractors = [];
-const extractors = [
+let extractors = [
   new OsAndAppInfoExtractor(),
   new ErrorExtractor(),
   new AutoUpdatesExtractor(),
@@ -33,6 +36,7 @@ const extractors = [
   new AudioDevicesExtractor(),
   new VOOTabsExtractor(),
   new ServiceNotificationsExtractor(),
+  new LoginDataExtractor(),
 ];
 
 if(argv.extract){
@@ -43,11 +47,14 @@ if(argv.extract){
     userExtractors = userExtractors.concat(argv.extract)
   }
 }
-userExtractors.forEach((userQuery, key) => {
-  const parsedQuery = JSON.parse(userQuery);
-  console.log('CUSTOM EXTRACTOR', userQuery);
-  extractors.push(new QueryLogExtractor({ query: parsedQuery, label: 'CUSTOM EXTRACTOR '+ (key+1) }));
-})
+if (userExtractors.length) {
+  extractors = userExtractors.map((userQuery, key) => {
+    const parsedQuery = JSON.parse(userQuery);
+    console.log('CUSTOM EXTRACTOR', userQuery);
+    return new QueryLogExtractor({ query: parsedQuery, label: 'CUSTOM EXTRACTOR '+ (key+1) });
+  });
+}
+
 
 const jsonStream = process.stdin
 .pipe(new ByLineTransform({decodeStrings: false}))
