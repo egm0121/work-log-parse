@@ -16,7 +16,7 @@ class ToJsonStream extends Transform {
       this.push(parsed);
       cb();
     } catch(err) {
-      console.warn('failed to parse logLine', err)
+      console.warn('failed to parse logLine', str);
       cb();
     }
   }
