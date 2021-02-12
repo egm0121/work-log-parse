@@ -1,6 +1,6 @@
 
 const QueryLogExtractor = require('../helpers/queryLogExtractor');
-class AudioDevicesExtractor extends QueryLogExtractor {
+class NavigationHistoryExtractor extends QueryLogExtractor {
   
   constructor() {
     super({
@@ -17,4 +17,4 @@ class AudioDevicesExtractor extends QueryLogExtractor {
     });
   }
 };
-module.exports = AudioDevicesExtractor;
+module.exports = NavigationHistoryExtractor;
