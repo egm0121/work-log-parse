@@ -12,6 +12,7 @@ const RemoteCallEventsExtractor = require('./extractors/remoteCallEvents');
 const CallProviderEventsExtractor = require('./extractors/callProviderEvents');
 const NumberConnectedCallsExtractor = require('./extractors/connectedCalls');
 const AudioDevicesExtractor = require('./extractors/audioDevices');
+const NavigationHistoryExtractor = require('./extractors/navigationHistory');
 const VOOTabsExtractor = require('./extractors/vooTabs');
 const QueryLogExtractor = require('./helpers/queryLogExtractor');
 const LoginDataExtractor = require('./extractors/loginData');
@@ -26,6 +27,7 @@ let extractors = [
   new LoginDataExtractor(),
   new OsAndAppInfoExtractor(),
   new ErrorExtractor(),
+  new NavigationHistoryExtractor(),
   new AutoUpdatesExtractor(),
   new CallEventsExtractor(),
   new RemoteCallEventsExtractor(),
