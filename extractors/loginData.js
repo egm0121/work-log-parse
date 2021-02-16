@@ -28,6 +28,7 @@ class LoginDataExtractor extends QueryLogExtractor {
       reducer: (allLogData) => {
         // explode a single key-value object into array of key value tuple 
         const firstPid = Object.keys(allLogData)[0];
+        if(!firstPid) return allLogData;
         const firstLog = allLogData[firstPid][0];
         return {
           [firstPid] : this.explodeObjectToRows(firstLog)
