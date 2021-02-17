@@ -16,6 +16,7 @@ const NavigationHistoryExtractor = require('./extractors/navigationHistory');
 const VOOTabsExtractor = require('./extractors/vooTabs');
 const QueryLogExtractor = require('./helpers/queryLogExtractor');
 const LoginDataExtractor = require('./extractors/loginData');
+const CrashReporterExtractor = require('./extractors/crashReport');
 
 const WhiteRenderExtractor = require('./extractors/whiteRender');
 const ServiceNotificationsExtractor = require('./extractors/serviceNotifications');
@@ -27,6 +28,7 @@ let extractors = [
   new LoginDataExtractor(),
   new OsAndAppInfoExtractor(),
   new ErrorExtractor(),
+  new CrashReporterExtractor(),
   new NavigationHistoryExtractor(),
   new AutoUpdatesExtractor(),
   new CallEventsExtractor(),
@@ -61,7 +63,7 @@ const jsonStream = process.stdin
 .pipe(new ToJsonStream());
 
 utils.pipeAll(jsonStream, extractors).on('error', () => {
-  console.error('stream error', err);
+  console.error('stream error:', err);
 })
 .on('end', () => {
   console.log(chalk.bold.blue.bgWhite(utils.padCentered(`LOG ANALYSIS`)));

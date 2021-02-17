@@ -5,8 +5,8 @@ class ToJsonStream extends Transform {
     super(opts);  
   }
   _transform(chunk, encoding, cb) {
+    let str;
     try {
-      let str;
       if (Buffer.isBuffer(chunk) || encoding === 'buffer') {
         str = chunk.toString('utf8');
       } else {
@@ -16,7 +16,8 @@ class ToJsonStream extends Transform {
       this.push(parsed);
       cb();
     } catch(err) {
-      console.warn('failed to parse logLine:', str);
+      const didTruncate = str.length > 100 && '...';
+      console.warn('FAILED PARSE LINE:', err.message , 'INPUT', `${str.slice(0,100)}${didTruncate}`);
       cb();
     }
   }
