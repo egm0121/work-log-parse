@@ -1,5 +1,6 @@
 # Log Extractor CLI
 
+
 ## default CLI usage
 
 To generate a report using all the currently available log extractors,
@@ -7,6 +8,19 @@ simply pipe one or multiple logfiles into the cli utility using `npx` so there i
 
 ```
 cat mylogfile/vod.log | npx https://github.com/egm0121/work-log-parse.git
+```
+This method will ensure to always use the latest version of the tool from the repo.
+
+## install work-log-analyze globally
+To run the tool offline the npm package can be globally installed 
+
+```
+npm i -g https://github.com/egm0121/work-log-parse.git
+```
+this will setup a new command `work-log-analyze` that can be invoked, eg:
+
+```
+cat mylogfile/vod.log | work-log-analyze
 ```
 
 ## CLI usage with custom matching query

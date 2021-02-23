@@ -37,7 +37,7 @@ class LogExtractor extends PassThrough {
         this.data[logLine.pid].push({time:logLine.time,...this.extractorFn(logLine)});
       }
     } catch (err) {
-      console.log('error on stream', err, logLine);
+      console.error('error on stream', err, logLine);
     }
     super._transform(logLine, encoding, cb);
   }
