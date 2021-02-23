@@ -17,6 +17,7 @@ const VOOTabsExtractor = require('./extractors/vooTabs');
 const QueryLogExtractor = require('./helpers/queryLogExtractor');
 const LoginDataExtractor = require('./extractors/loginData');
 const CrashReporterExtractor = require('./extractors/crashReport');
+const SleepResumeExtractor = require('./extractors/sleepResume');
 
 const WhiteRenderExtractor = require('./extractors/whiteRender');
 const ServiceNotificationsExtractor = require('./extractors/serviceNotifications');
@@ -30,6 +31,7 @@ let extractors = [
   new ErrorExtractor(),
   new CrashReporterExtractor(),
   new NavigationHistoryExtractor(),
+  new SleepResumeExtractor(),
   new AutoUpdatesExtractor(),
   new CallEventsExtractor(),
   new RemoteCallEventsExtractor(),

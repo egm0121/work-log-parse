@@ -1,6 +1,6 @@
 {
-  "name": "npx-script-template",
-  "version": "0.0.0",
+  "name": "work-log-analyze",
+  "version": "0.0.1",
   "bin": "./cli.js",
   "dependencies": {
     "chalk": "^4.1.0",
