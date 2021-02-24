@@ -31,16 +31,20 @@ class QueryLogExtractor extends LogExtractor {
     if(typeof matcher === 'object') {
       for(let propName in matcher){
         const propVal = matcher[propName];
-        const isMatcherKey = propName.indexOf('$') !== 0;
-        if( isMatcherKey && ((typeof propVal) in QueryLogExtractor.EQ_MATCH_TYPES)) {
+        const isRegularKey = propName.indexOf('$') !== 0;
+        if(propName === 'FILE') {
+          isMatch = isMatch && (log.FILE === propVal || log.LOG_PREFIX === propVal || log.PREFIX === propVal);
+          continue;
+        }
+        if(isRegularKey && ((typeof propVal) in QueryLogExtractor.EQ_MATCH_TYPES)) {
           isMatch = isMatch && log[propName] === propVal;
           continue;
         }
-        if(isMatcherKey && (typeof propVal === 'object') && (QueryLogExtractor.SPECIAL_MATCHER.IN in propVal)){
+        if(isRegularKey && (typeof propVal === 'object') && (QueryLogExtractor.SPECIAL_MATCHER.IN in propVal)){
           isMatch = isMatch && propVal[QueryLogExtractor.SPECIAL_MATCHER.IN].includes(log[propName]);
           continue;
         }
-        if(isMatcherKey && (typeof propVal === 'object') && (QueryLogExtractor.SPECIAL_MATCHER.EXIST in propVal) ){
+        if(isRegularKey && (typeof propVal === 'object') && (QueryLogExtractor.SPECIAL_MATCHER.EXIST in propVal) ){
           isMatch = isMatch && ( (propName in log) === propVal[QueryLogExtractor.SPECIAL_MATCHER.EXIST]);
           continue;
         }

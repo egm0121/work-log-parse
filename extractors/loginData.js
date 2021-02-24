@@ -3,7 +3,7 @@ class LoginDataExtractor extends QueryLogExtractor {
   
   constructor() {
     super({
-      query: { LOG_PREFIX: 'el/services/logUserData', loginData: { $exist: true }},
+      query: { FILE: 'el/services/logUserData', loginData: { $exist: true }},
       extractor: (logLine) => {
         const loginInfo = logLine.loginData;
         const fieldsObj = {

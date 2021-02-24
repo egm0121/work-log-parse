@@ -4,7 +4,7 @@ class SleepResumeExtractor extends QueryLogExtractor {
   constructor() {
     super({
       query: { 
-        LOG_PREFIX: 'el/services/maintenance', 
+        FILE: 'el/services/maintenance', 
         msg: { 
           $in : [
             'System going to sleep.', 
