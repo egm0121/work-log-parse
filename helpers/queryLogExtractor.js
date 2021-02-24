@@ -33,7 +33,12 @@ class QueryLogExtractor extends LogExtractor {
         const propVal = matcher[propName];
         const isRegularKey = propName.indexOf('$') !== 0;
         if(propName === 'FILE') {
-          isMatch = isMatch && (log.FILE === propVal || log.LOG_PREFIX === propVal || log.PREFIX === propVal);
+          isMatch = isMatch && (
+            log.FILE === propVal || 
+            log.LOG_PREFIX === propVal || 
+            log.PREFIX === propVal ||
+            log.LOG_FILE === propVal
+          );
           continue;
         }
         if(isRegularKey && ((typeof propVal) in QueryLogExtractor.EQ_MATCH_TYPES)) {
